@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Parquímetro Interativo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 50px;
+    }
+    input, button {
+      padding: 10px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Simulador de Parquímetro</h1>
+  <label for="valor">Informe o valor (R$):</label><br>
+  <input type="number" id="valor" step="0.01" min="0"><br>
+  <button onclick="calcularTempo()">Calcular Tempo</button>
+
+  <h2>Resultado:</h2>
+  <div id="resultado"></div>
+
+  <!-- Aqui está o JavaScript diretamente no HTML -->
+  <script>
+    // Classe Parquímetro
+    class Parquimetro {
+      constructor(tarifaPor30Min = 1.5, tempoMaxMinutos = 120) {
+        this.tarifa = tarifaPor30Min; // R$1,50 por 30 minutos
+        this.tempoMax = tempoMaxMinutos; // 2 horas
+      }
+
+      calcular(valorInserido) {
+  const tempoPorTarifa = 30; // minutos
+  const tempoTotalComprado = Math.floor(valorInserido / this.tarifa) * tempoPorTarifa;
+
+  const maxBlocos = this.tempoMax / tempoPorTarifa;
+  const maxValor = maxBlocos * this.tarifa;
+
+  let tempoFinal = Math.min(tempoTotalComprado, this.tempoMax);
+  let troco = 0;
+
+  if (valorInserido > maxValor) {   
+    troco = valorInserido - maxValor;
+  }
+
+  return {
+    tempo: tempoFinal,
+    troco: troco.toFixed(2)
+  };
+}
+    }
+
+    // Função chamada ao clicar no botão
+    function calcularTempo() {
+      const valor = parseFloat(document.getElementById('valor').value);
+      const resultadoDiv = document.getElementById('resultado');
+
+      if (isNaN(valor) || valor <= 0) {
+        resultadoDiv.innerHTML = "<p style='color:red;'>Por favor, insira um valor válido.</p>";
+        return;
+      }
+
+      const parquimetro = new Parquimetro();
+      const resultado = parquimetro.calcular(valor);
+
+      resultadoDiv.innerHTML = `
+        <p>Tempo de permanência: <strong>${resultado.tempo} minutos</strong></p>
+        <p>Troco: <strong>R$ ${resultado.troco}</strong></p>
+      `;
+    }
+  </script>
+</body>
+</html>
