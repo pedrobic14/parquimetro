@@ -24,17 +24,17 @@
   <h2>Resultado:</h2>
   <div id="resultado"></div>
 
-  <!-- Aqui está o JavaScript diretamente no HTML -->
+  
   <script>
-    // Classe Parquímetro
+    
     class Parquimetro {
       constructor(tarifaPor30Min = 1.5, tempoMaxMinutos = 120) {
-        this.tarifa = tarifaPor30Min; // R$1,50 por 30 minutos
-        this.tempoMax = tempoMaxMinutos; // 2 horas
+        this.tarifa = tarifaPor30Min; 
+        this.tempoMax = tempoMaxMinutos; 
       }
 
       calcular(valorInserido) {
-  const tempoPorTarifa = 30; // minutos
+  const tempoPorTarifa = 30; 
   const tempoTotalComprado = Math.floor(valorInserido / this.tarifa) * tempoPorTarifa;
 
   const maxBlocos = this.tempoMax / tempoPorTarifa;
@@ -54,7 +54,7 @@
 }
     }
 
-    // Função chamada ao clicar no botão
+    
     function calcularTempo() {
       const valor = parseFloat(document.getElementById('valor').value);
       const resultadoDiv = document.getElementById('resultado');
@@ -74,4 +74,5 @@
     }
   </script>
 </body>
+
 </html>
