@@ -26,35 +26,38 @@
 
   
   <script>
-    
     class Parquimetro {
-      constructor(tarifaPor30Min = 1.5, tempoMaxMinutos = 120) {
-        this.tarifa = tarifaPor30Min; 
-        this.tempoMax = tempoMaxMinutos; 
-      }
-
-      calcular(valorInserido) {
-  const tempoPorTarifa = 30; 
-  const tempoTotalComprado = Math.floor(valorInserido / this.tarifa) * tempoPorTarifa;
-
-  const maxBlocos = this.tempoMax / tempoPorTarifa;
-  const maxValor = maxBlocos * this.tarifa;
-
-  let tempoFinal = Math.min(tempoTotalComprado, this.tempoMax);
-  let troco = 0;
-
-  if (valorInserido > maxValor) {   
-    troco = valorInserido - maxValor;
+  constructor() {
+    this.valorTempo = [
+      { valor: 3.00, tempo: 120 },
+      { valor: 1.75, tempo: 60 },
+      { valor: 1.00, tempo: 30 }
+    ];
   }
 
-  return {
-    tempo: tempoFinal,
-    troco: troco.toFixed(2)
-  };
-}
+  calcular(valorInserido) {
+    let tempo = 0;
+    let valorUtilizado = 0;
+
+    for (let i = 0; i < this.valorTempo.length; i++) {
+      if (valorInserido >= this.valorTempo[i].valor) {
+        tempo = this.valorTempo[i].tempo;
+        valorUtilizado = this.valorTempo[i].valor;
+        break;
+      }
     }
 
-    
+    const troco = (valorInserido - valorUtilizado).toFixed(2);
+
+    return {
+      tempo: tempo,
+      troco: troco > 0 ? troco : '0.00'
+    };
+  }
+}
+
+
+    // Função chamada ao clicar no botão
     function calcularTempo() {
       const valor = parseFloat(document.getElementById('valor').value);
       const resultadoDiv = document.getElementById('resultado');
@@ -74,5 +77,4 @@
     }
   </script>
 </body>
-
 </html>
